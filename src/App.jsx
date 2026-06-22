@@ -369,7 +369,7 @@ export default function App() {
 
   // Fetch real-time data from Google Sheets Apps Script Web App
   useEffect(() => {
-    const webAppUrl = localStorage.getItem('gas_api_url') || DEFAULT_GAS_URL;
+    const webAppUrl = import.meta.env.VITE_GAS_API_URL || localStorage.getItem('gas_api_url') || DEFAULT_GAS_URL;
     if (webAppUrl) {
       setIsLoading(true);
       fetch(webAppUrl)
@@ -630,7 +630,7 @@ export default function App() {
       })
     };
 
-    const webAppUrl = localStorage.getItem('gas_api_url') || DEFAULT_GAS_URL;
+    const webAppUrl = import.meta.env.VITE_GAS_API_URL || localStorage.getItem('gas_api_url') || DEFAULT_GAS_URL;
 
     try {
       if (webAppUrl) {
