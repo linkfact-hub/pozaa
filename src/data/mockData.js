@@ -269,7 +269,7 @@ export const events = [
     type: "Khuyến mãi",
     startDate: "2026-06-20",
     endDate: "2026-06-27",
-    status: "Hiển thị"
+    status: "Đang diễn ra"
   },
   {
     id: "EV002",
@@ -279,6 +279,6 @@ export const events = [
     type: "Khuyến mãi",
     startDate: "2026-06-21",
     endDate: "2026-07-05",
-    status: "Hiển thị"
+    status: "Đang diễn ra"
   }
 ];

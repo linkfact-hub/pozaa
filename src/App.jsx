@@ -16,6 +16,28 @@ const parseMoney = (val) => {
   return Number(cleanStr) || 0;
 };
 
+// Helper to format dates to dd/mm/yyyy
+const formatDate = (dateStr) => {
+  if (!dateStr) return '';
+  try {
+    // If it's already in dd/mm/yyyy format, return it
+    if (/^\d{2}\/\d{2}\/\d{4}$/.test(dateStr)) {
+      return dateStr;
+    }
+    
+    const d = new Date(dateStr);
+    if (!isNaN(d.getTime())) {
+      const dd = String(d.getDate()).padStart(2, '0');
+      const mm = String(d.getMonth() + 1).padStart(2, '0');
+      const yyyy = d.getFullYear();
+      return `${dd}/${mm}/${yyyy}`;
+    }
+    return dateStr;
+  } catch (e) {
+    return dateStr;
+  }
+};
+
 // Helper to convert Google Drive sharing links to direct image links
 const getDirectImgUrl = (url) => {
   if (!url) return '';
@@ -79,7 +101,7 @@ export default function App() {
   const [products, setProducts] = useState([]);
   const [categoriesList, setCategoriesList] = useState([]); // Dynamic categories list
   const [allToppings, setAllToppings] = useState(toppings);
-  const [allEvents, setAllEvents] = useState(events);
+  const [allEvents, setAllEvents] = useState(events.filter(e => (e.status || e["Trạng thái"]) === "Đang diễn ra"));
   const [isLoading, setIsLoading] = useState(true);
   
   // Navigation states
@@ -411,16 +433,18 @@ export default function App() {
 
             // Map Events
             if (data.suKien) {
-              const mappedEvents = data.suKien.map(item => ({
-                id: item["ID"] || item.id,
-                title: item["Tiêu đề"] || item.title,
-                description: item["Mô tả"] || item.description || "",
-                image: item["Hình ảnh"] || item["Link hình ảnh"] || item.image || "",
-                type: item["Loại"] || "Khuyến mãi",
-                startDate: item["Ngày bắt đầu"] || "",
-                endDate: item["Ngày kết thúc"] || "",
-                status: item["Trạng thái"] || "Hiển thị"
-              }));
+              const mappedEvents = data.suKien
+                .filter(item => (item["Trạng thái"] || item.status) === "Đang diễn ra")
+                .map(item => ({
+                  id: item["ID"] || item.id,
+                  title: item["Tiêu đề"] || item.title,
+                  description: item["Mô tả"] || item.description || "",
+                  image: item["Hình ảnh"] || item["Link hình ảnh"] || item.image || "",
+                  type: item["Loại"] || "Khuyến mãi",
+                  startDate: formatDate(item["Ngày bắt đầu"] || ""),
+                  endDate: formatDate(item["Ngày kết thúc"] || ""),
+                  status: item["Trạng thái"] || "Đang diễn ra"
+                }));
               setAllEvents(mappedEvents);
             }
 
@@ -1145,7 +1169,7 @@ export default function App() {
               </p>
               {(selectedEvent.startDate || selectedEvent.endDate) && (
                 <div className="event-modal-time">
-                  📅 <strong>Thời gian áp dụng:</strong> {selectedEvent.startDate ? `Từ ${selectedEvent.startDate}` : ''} {selectedEvent.endDate ? `đến ${selectedEvent.endDate}` : ''}
+                  📅 <strong>Thời gian áp dụng:</strong> {selectedEvent.startDate ? `Từ ${formatDate(selectedEvent.startDate)}` : ''} {selectedEvent.endDate ? `đến ${formatDate(selectedEvent.endDate)}` : ''}
                 </div>
               )}
             </div>
