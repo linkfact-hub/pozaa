@@ -117,7 +117,7 @@ button, input, select, textarea {
   content: '';
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  background: linear-gradient(to bottom, rgba(11, 12, 16, 0.8), var(--bg-main));
+  background: linear-gradient(to bottom, rgba(11, 12, 16, 0.7), var(--bg-main));
   z-index: 1;
 }
 
@@ -1709,6 +1709,37 @@ button, input, select, textarea {
 
   .directory-card-name {
     font-size: 1.2rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .directory-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 10px !important;
+  }
+  
+  .directory-card {
+    height: 110px !important;
+  }
+  
+  .directory-card-overlay {
+    padding: 10px !important;
+  }
+  
+  .directory-card-name {
+    font-size: 0.95rem !important;
+    line-height: 1.3 !important;
+    margin-bottom: 2px !important;
+  }
+  
+  .directory-card-btn {
+    font-size: 0.72rem !important;
+  }
+  
+  .directory-group-title {
+    font-size: 1.4rem !important;
+    margin-bottom: 8px !important;
+    padding-bottom: 6px !important;
   }
 }
 
